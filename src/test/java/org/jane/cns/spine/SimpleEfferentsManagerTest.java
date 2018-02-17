@@ -4,21 +4,20 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
 import java.util.Set;
 
-public class SimpleEfferentManagerTest {
+public class SimpleEfferentsManagerTest {
 
-    private SimpleEfferentManager simpleEfferentManager;
+    private SimpleEfferentsManager simpleEfferentManager;
 
     @Before
     public void setUp() throws Exception {
-        simpleEfferentManager = new SimpleEfferentManager();
+        simpleEfferentManager = new SimpleEfferentsManager();
     }
 
     @Test
     public void whenEfferentCreatedCanBeObtained() {
-        EfferentDescriptor descriptor = new EfferentDescriptor("firstEfferent","ip","80", "first Efferent");
+        EfferentDescriptor descriptor = new EfferentDescriptor("firstEfferent", "ip", "80", "first Efferent");
         simpleEfferentManager.addEfferents(descriptor);
 
         Assert.assertEquals(Set.of(descriptor), simpleEfferentManager.getEfferents());
@@ -26,7 +25,7 @@ public class SimpleEfferentManagerTest {
 
     @Test
     public void whenRemovedTestDoesNotExist() {
-        EfferentDescriptor descriptor = new EfferentDescriptor("firstEfferent","ip","80", "first Efferent");
+        EfferentDescriptor descriptor = new EfferentDescriptor("firstEfferent", "ip", "80", "first Efferent");
         simpleEfferentManager.addEfferents(descriptor);
         Set<EfferentDescriptor> efferents = simpleEfferentManager.getEfferents();
         Assert.assertEquals(Set.of(descriptor), efferents);

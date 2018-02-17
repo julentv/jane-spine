@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class SimpleEfferentManager implements EfferentManager {
+public class SimpleEfferentsManager implements EfferentsManager {
 
     Map<String, EfferentDescriptor> efferentsById = new HashMap<>();
 
@@ -22,6 +22,11 @@ public class SimpleEfferentManager implements EfferentManager {
     @Override
     public void removeEfferent(String efferentId) {
         efferentsById.remove(efferentId);
+    }
+
+    @Override
+    public EfferentStatus getEfferentStatus(String efferentId) {
+        return null;
     }
 
     @Override
