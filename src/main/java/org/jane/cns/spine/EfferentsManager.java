@@ -1,5 +1,8 @@
 package org.jane.cns.spine;
 
+import org.jane.cns.spine.efferents.EfferentDescriptor;
+import org.jane.cns.spine.efferents.EfferentStatus;
+
 import java.util.Set;
 
 public interface EfferentsManager {

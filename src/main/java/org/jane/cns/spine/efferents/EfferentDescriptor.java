@@ -1,4 +1,4 @@
-package org.jane.cns.spine;
+package org.jane.cns.spine.efferents;
 
 public class EfferentDescriptor {
     private final String id;
