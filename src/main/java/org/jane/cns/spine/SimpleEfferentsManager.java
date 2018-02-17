@@ -1,6 +1,9 @@
 package org.jane.cns.spine;
 
-import org.jane.cns.spine.efferents.*;
+import org.jane.cns.spine.efferents.Efferent;
+import org.jane.cns.spine.efferents.EfferentDescriptor;
+import org.jane.cns.spine.efferents.EfferentFactory;
+import org.jane.cns.spine.efferents.EfferentStatus;
 
 import java.util.HashMap;
 import java.util.Map;
