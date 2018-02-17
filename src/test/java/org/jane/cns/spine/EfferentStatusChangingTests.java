@@ -4,6 +4,7 @@ import org.jane.cns.spine.efferents.Efferent;
 import org.jane.cns.spine.efferents.EfferentDescriptor;
 import org.jane.cns.spine.efferents.EfferentFactory;
 import org.jane.cns.spine.efferents.EfferentStatus;
+import org.jane.cns.spine.efferents.store.EfferentsStore;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +14,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class EfferentStatusChanging {
+public class EfferentStatusChangingTests {
 
     private SimpleEfferentsManager simpleEfferentManager;
     private EfferentFactory efferentFactory;
@@ -21,7 +22,8 @@ public class EfferentStatusChanging {
     @Before
     public void setUp() throws Exception {
         efferentFactory = Mockito.mock(EfferentFactory.class);
-        simpleEfferentManager = new SimpleEfferentsManager(efferentFactory);
+        EfferentsStore efferentsStore = Mockito.mock(EfferentsStore.class);
+        simpleEfferentManager = new SimpleEfferentsManager(efferentFactory, efferentsStore);
     }
 
     @Test
@@ -53,9 +55,9 @@ public class EfferentStatusChanging {
     }
 
     private void addEfferentToManager(Efferent efferent, String id) {
-        EfferentDescriptor descriptor = new EfferentDescriptor(id, "ip", "80", "first Efferent");
+        EfferentDescriptor descriptor = new EfferentDescriptor(id, "ip", 80, "first Efferent");
         when(efferentFactory.createEfferent(eq(descriptor))).thenReturn(efferent);
         when(efferent.getEfferentStatus()).thenReturn(EfferentStatus.OFFLINE);
-        simpleEfferentManager.addEfferents(descriptor);
+        simpleEfferentManager.addEfferent(descriptor);
     }
 }

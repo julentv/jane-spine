@@ -4,6 +4,7 @@ import org.jane.cns.spine.efferents.Efferent;
 import org.jane.cns.spine.efferents.EfferentDescriptor;
 import org.jane.cns.spine.efferents.EfferentFactory;
 import org.jane.cns.spine.efferents.EfferentStatus;
+import org.jane.cns.spine.efferents.store.EfferentsStore;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,10 +14,19 @@ import java.util.stream.Collectors;
 public class SimpleEfferentsManager implements EfferentsManager {
 
     private final EfferentFactory efferentFactory;
-    private final Map<String, Efferent> efferentsById = new HashMap<>();
+    private final Map<String, Efferent> efferentsById;
+    private final EfferentsStore store;
 
-    public SimpleEfferentsManager(EfferentFactory efferentFactory) {
+    public SimpleEfferentsManager(EfferentFactory efferentFactory, EfferentsStore store) {
         this.efferentFactory = efferentFactory;
+        this.efferentsById = new HashMap<>();
+        this.store = store;
+
+        loadEfferents();
+    }
+
+    private void loadEfferents() {
+        store.loadEfferentDescriptors().forEach(this::addEfferent);
     }
 
     @Override
@@ -25,7 +35,8 @@ public class SimpleEfferentsManager implements EfferentsManager {
     }
 
     @Override
-    public void addEfferents(EfferentDescriptor descriptor) {
+    public void addEfferent(EfferentDescriptor descriptor) {
+        store.save(descriptor);
         efferentsById.put(descriptor.getId(), efferentFactory.createEfferent(descriptor));
     }
 
@@ -34,6 +45,7 @@ public class SimpleEfferentsManager implements EfferentsManager {
         if (!efferentsById.containsKey(efferentId)) {
             throw new IllegalArgumentException("There is not an efferent with the id: " + efferentId);
         }
+        store.remove(efferentId);
         efferentsById.remove(efferentId);
     }
 

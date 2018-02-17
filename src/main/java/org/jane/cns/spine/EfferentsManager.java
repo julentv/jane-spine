@@ -8,7 +8,7 @@ import java.util.Set;
 public interface EfferentsManager {
     Set<EfferentDescriptor> getEfferents();
 
-    void addEfferents(EfferentDescriptor descriptor);
+    void addEfferent(EfferentDescriptor descriptor);
 
     void removeEfferent(String efferentId);
 

@@ -3,6 +3,7 @@ package org.jane.cns.spine;
 import org.jane.cns.spine.efferents.Efferent;
 import org.jane.cns.spine.efferents.EfferentDescriptor;
 import org.jane.cns.spine.efferents.EfferentFactory;
+import org.jane.cns.spine.efferents.store.EfferentsStore;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +14,7 @@ import java.util.Set;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
-public class EfferentCreationAndRemoval {
+public class EfferentCreationAndRemovalTests {
 
     private SimpleEfferentsManager simpleEfferentManager;
     private EfferentFactory efferentFactory;
@@ -21,7 +22,8 @@ public class EfferentCreationAndRemoval {
     @Before
     public void setUp() throws Exception {
         efferentFactory = Mockito.mock(EfferentFactory.class);
-        simpleEfferentManager = new SimpleEfferentsManager(efferentFactory);
+        EfferentsStore efferentsStore = Mockito.mock(EfferentsStore.class);
+        simpleEfferentManager = new SimpleEfferentsManager(efferentFactory, efferentsStore);
     }
 
     @Test
@@ -31,7 +33,7 @@ public class EfferentCreationAndRemoval {
 
     @Test
     public void whenEfferentCreatedCanBeObtained() {
-        EfferentDescriptor descriptor = new EfferentDescriptor("firstEfferent", "ip", "80", "first Efferent");
+        EfferentDescriptor descriptor = new EfferentDescriptor("firstEfferent", "ip", 80, "first Efferent");
         addEfferentToManager(descriptor);
 
         Assert.assertEquals(Set.of(descriptor), simpleEfferentManager.getEfferents());
@@ -39,7 +41,7 @@ public class EfferentCreationAndRemoval {
 
     @Test
     public void whenRemovedTestDoesNotExist() {
-        EfferentDescriptor descriptor = new EfferentDescriptor("firstEfferent", "ip", "80", "first Efferent");
+        EfferentDescriptor descriptor = new EfferentDescriptor("firstEfferent", "ip", 80, "first Efferent");
         addEfferentToManager(descriptor);
         Assert.assertEquals(Set.of(descriptor), simpleEfferentManager.getEfferents());
 
@@ -57,6 +59,6 @@ public class EfferentCreationAndRemoval {
         Efferent efferent = Mockito.mock(Efferent.class);
         when(efferentFactory.createEfferent(eq(descriptor))).thenReturn(efferent);
         when(efferent.getEfferentDescriptor()).thenReturn(descriptor);
-        simpleEfferentManager.addEfferents(descriptor);
+        simpleEfferentManager.addEfferent(descriptor);
     }
 }
