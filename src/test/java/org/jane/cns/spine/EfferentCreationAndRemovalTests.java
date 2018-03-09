@@ -33,7 +33,7 @@ public class EfferentCreationAndRemovalTests {
 
     @Test
     public void whenEfferentCreatedCanBeObtained() {
-        EfferentDescriptor descriptor = new EfferentDescriptor("firstEfferent", "ip", 80, "first Efferent");
+        EfferentDescriptor descriptor = Mockito.mock(EfferentDescriptor.class);
         addEfferentToManager(descriptor);
 
         Assert.assertEquals(Set.of(descriptor), simpleEfferentManager.getEfferents());
@@ -41,7 +41,8 @@ public class EfferentCreationAndRemovalTests {
 
     @Test
     public void whenRemovedTestDoesNotExist() {
-        EfferentDescriptor descriptor = new EfferentDescriptor("firstEfferent", "ip", 80, "first Efferent");
+        EfferentDescriptor descriptor = Mockito.mock(EfferentDescriptor.class);
+        when(descriptor.getId()).thenReturn("firstEfferent");
         addEfferentToManager(descriptor);
         Assert.assertEquals(Set.of(descriptor), simpleEfferentManager.getEfferents());
 

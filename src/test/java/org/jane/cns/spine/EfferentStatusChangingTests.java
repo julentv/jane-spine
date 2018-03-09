@@ -55,7 +55,8 @@ public class EfferentStatusChangingTests {
     }
 
     private void addEfferentToManager(Efferent efferent, String id) {
-        EfferentDescriptor descriptor = new EfferentDescriptor(id, "ip", 80, "first Efferent");
+        EfferentDescriptor descriptor = Mockito.mock(EfferentDescriptor.class);
+        when(descriptor.getId()).thenReturn(id);
         when(efferentFactory.createEfferent(eq(descriptor))).thenReturn(efferent);
         when(efferent.getEfferentStatus()).thenReturn(EfferentStatus.OFFLINE);
         simpleEfferentManager.addEfferent(descriptor);

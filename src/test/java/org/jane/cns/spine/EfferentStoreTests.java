@@ -30,7 +30,7 @@ public class EfferentStoreTests {
 
     @Test
     public void storedEfferentsLoadedInTheBeginning() {
-        EfferentDescriptor descriptor = new EfferentDescriptor("id", "ip", 80, "descriptor");
+        EfferentDescriptor descriptor = Mockito.mock(EfferentDescriptor.class);
         Set<EfferentDescriptor> efferentDescriptors = Set.of(descriptor);
         Efferent efferent = Mockito.mock(Efferent.class);
         when(efferent.getEfferentDescriptor()).thenReturn(descriptor);
@@ -43,14 +43,15 @@ public class EfferentStoreTests {
 
     @Test
     public void efferentStoredWhenCreated() {
-        EfferentDescriptor descriptor = new EfferentDescriptor("id", "ip", 80, "descriptor");
+        EfferentDescriptor descriptor = Mockito.mock(EfferentDescriptor.class);
         efferentsManager.addEfferent(descriptor);
         verify(efferentsStore).save(eq(descriptor));
     }
 
     @Test
     public void efferentRemovedFromStoreWhenRemoval() {
-        EfferentDescriptor descriptor = new EfferentDescriptor("id", "ip", 80, "descriptor");
+        EfferentDescriptor descriptor = Mockito.mock(EfferentDescriptor.class);
+        when(descriptor.getId()).thenReturn("id");
         efferentsManager.addEfferent(descriptor);
 
         efferentsManager.removeEfferent("id");
