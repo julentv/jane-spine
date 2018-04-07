@@ -40,7 +40,7 @@ public class RestEfferent implements Efferent {
             String content = getMethodMessage(con);
             con.disconnect();
             return EfferentStatus.valueOf(content);
-        } catch (java.io.IOException e) {
+        } catch (IOException e) {
             LOGGER.error(e);
             return EfferentStatus.OFFLINE;
         }
@@ -64,7 +64,7 @@ public class RestEfferent implements Efferent {
             if (200 != responseCode) {
                 throw new RestEfferentCouldNotBeActivatedException("Received response code: " + responseCode);
             }
-        } catch (java.io.IOException e) {
+        } catch (IOException e) {
             throw new RestEfferentCouldNotBeActivatedException(e);
         }
     }
@@ -85,7 +85,7 @@ public class RestEfferent implements Efferent {
             if (200 != responseCode) {
                 throw new RestEfferentCouldNotBeInhibitedException("Received response code: " + responseCode);
             }
-        } catch (java.io.IOException e) {
+        } catch (IOException e) {
             throw new RestEfferentCouldNotBeInhibitedException(e);
         }
     }
