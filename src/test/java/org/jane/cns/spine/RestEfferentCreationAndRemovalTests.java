@@ -1,11 +1,9 @@
 package org.jane.cns.spine;
 
 import org.jane.cns.spine.efferents.Efferent;
-import org.jane.cns.spine.efferents.EfferentDescriptor;
 import org.jane.cns.spine.efferents.EfferentFactory;
 import org.jane.cns.spine.efferents.rest.RestEfferentDescriptor;
 import org.jane.cns.spine.efferents.rest.store.RestEfferentStore;
-import org.jane.cns.spine.efferents.store.EfferentsStore;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +14,7 @@ import java.util.Set;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
-public class EfferentCreationAndRemovalTests {
+public class RestEfferentCreationAndRemovalTests {
 
     private EfferentsManager simpleEfferentManager;
     private EfferentFactory efferentFactory;
@@ -35,7 +33,7 @@ public class EfferentCreationAndRemovalTests {
 
     @Test
     public void whenEfferentCreatedCanBeObtained() {
-        EfferentDescriptor descriptor = Mockito.mock(EfferentDescriptor.class);
+        RestEfferentDescriptor descriptor = Mockito.mock(RestEfferentDescriptor.class);
         addEfferentToManager(descriptor);
 
         Assert.assertEquals(Set.of(descriptor), simpleEfferentManager.getEfferents());
@@ -43,7 +41,7 @@ public class EfferentCreationAndRemovalTests {
 
     @Test
     public void whenRemovedTestDoesNotExist() {
-        EfferentDescriptor descriptor = Mockito.mock(EfferentDescriptor.class);
+        RestEfferentDescriptor descriptor = Mockito.mock(RestEfferentDescriptor.class);
         when(descriptor.getId()).thenReturn("firstEfferent");
         addEfferentToManager(descriptor);
         Assert.assertEquals(Set.of(descriptor), simpleEfferentManager.getEfferents());
