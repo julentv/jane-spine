@@ -1,8 +1,8 @@
 package org.jane.cns.spine;
 
-import org.jane.cns.spine.efferents.Efferent;
-import org.jane.cns.spine.efferents.EfferentFactory;
+import org.jane.cns.spine.efferents.rest.RestEfferent;
 import org.jane.cns.spine.efferents.rest.RestEfferentDescriptor;
+import org.jane.cns.spine.efferents.rest.RestEfferentFactory;
 import org.jane.cns.spine.efferents.rest.store.RestEfferentStore;
 import org.junit.Assert;
 import org.junit.Before;
@@ -19,11 +19,11 @@ public class EfferentStoreTests {
 
     private EfferentsManager efferentsManager;
     private RestEfferentStore efferentsStore;
-    private EfferentFactory efferentFactory;
+    private RestEfferentFactory efferentFactory;
 
     @Before
     public void setUp() throws Exception {
-        efferentFactory = Mockito.mock(EfferentFactory.class);
+        efferentFactory = Mockito.mock(RestEfferentFactory.class);
         efferentsStore = Mockito.mock(RestEfferentStore.class);
         efferentsManager = new EfferentsManager(efferentFactory, efferentsStore);
     }
@@ -32,7 +32,7 @@ public class EfferentStoreTests {
     public void storedEfferentsLoadedInTheBeginning() {
         RestEfferentDescriptor descriptor = Mockito.mock(RestEfferentDescriptor.class);
         Set<RestEfferentDescriptor> efferentDescriptors = Set.of(descriptor);
-        Efferent efferent = Mockito.mock(Efferent.class);
+        RestEfferent efferent = Mockito.mock(RestEfferent.class);
         when(efferent.getEfferentDescriptor()).thenReturn(descriptor);
         when(efferentFactory.createEfferent(eq(descriptor))).thenReturn(efferent);
         when(efferentsStore.loadEfferentDescriptors()).thenReturn(efferentDescriptors);

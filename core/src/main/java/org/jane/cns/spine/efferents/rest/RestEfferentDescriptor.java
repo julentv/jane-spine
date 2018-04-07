@@ -16,15 +16,15 @@ public class RestEfferentDescriptor extends EfferentDescriptor {
         this.port = port;
     }
 
-    String getIp() {
+    public String getIp() {
         return ip;
     }
 
-    Integer getPort() {
+    public Integer getPort() {
         return port;
     }
 
-    String getIpAndPort() {
+    public String getIpAndPort() {
         return ip + ":" + port;
     }
 

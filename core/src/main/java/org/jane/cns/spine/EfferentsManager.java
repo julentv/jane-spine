@@ -2,9 +2,9 @@ package org.jane.cns.spine;
 
 import org.jane.cns.spine.efferents.Efferent;
 import org.jane.cns.spine.efferents.EfferentDescriptor;
-import org.jane.cns.spine.efferents.EfferentFactory;
 import org.jane.cns.spine.efferents.EfferentStatus;
 import org.jane.cns.spine.efferents.rest.RestEfferentDescriptor;
+import org.jane.cns.spine.efferents.rest.RestEfferentFactory;
 import org.jane.cns.spine.efferents.rest.store.RestEfferentStore;
 
 import java.util.HashMap;
@@ -14,11 +14,11 @@ import java.util.stream.Collectors;
 
 public class EfferentsManager {
 
-    private final EfferentFactory efferentFactory;
+    private final RestEfferentFactory efferentFactory;
     private final Map<String, Efferent> efferentsById;
     private final RestEfferentStore store;
 
-    public EfferentsManager(EfferentFactory efferentFactory, RestEfferentStore store) {
+    public EfferentsManager(RestEfferentFactory efferentFactory, RestEfferentStore store) {
         this.efferentFactory = efferentFactory;
         this.efferentsById = new HashMap<>();
         this.store = store;
