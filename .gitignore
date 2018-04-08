@@ -2,4 +2,6 @@
 *.iml
 *.iws
 log/
+logs/
 target/
+store/

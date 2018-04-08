@@ -9,6 +9,7 @@ import org.jane.cns.spine.efferents.rest.store.RestEfferentStore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,7 +28,7 @@ public class EfferentsManager {
     }
 
     private void loadEfferents() {
-        store.loadEfferentDescriptors().forEach(this::addRestEfferent);
+        store.loadEfferentDescriptors().forEach(this::putRestEfferent);
     }
 
     public Set<EfferentDescriptor> getEfferents() {
@@ -36,6 +37,10 @@ public class EfferentsManager {
 
     public void addRestEfferent(RestEfferentDescriptor descriptor) {
         store.save(descriptor);
+        putRestEfferent(descriptor);
+    }
+
+    private void putRestEfferent(RestEfferentDescriptor descriptor) {
         efferentsById.put(descriptor.getId(), efferentFactory.createEfferent(descriptor));
     }
 
@@ -47,8 +52,9 @@ public class EfferentsManager {
         efferentsById.remove(efferentId);
     }
 
-    public EfferentStatus getEfferentStatus(String efferentId) {
-        return efferentsById.get(efferentId).getEfferentStatus();
+    public Optional<EfferentStatus> getEfferentStatus(String efferentId) {
+        Optional<Efferent> efferent = Optional.ofNullable(efferentsById.get(efferentId));
+        return efferent.map(Efferent::getEfferentStatus);
     }
 
     public void activateEfferent(String efferentId) {

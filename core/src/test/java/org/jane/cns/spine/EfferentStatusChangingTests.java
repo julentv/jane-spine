@@ -31,7 +31,14 @@ public class EfferentStatusChangingTests {
         RestEfferent efferent = Mockito.mock(RestEfferent.class);
         addEfferentToManager(efferent, "firstEfferent");
 
-        Assert.assertEquals(EfferentStatus.OFFLINE, simpleEfferentManager.getEfferentStatus("firstEfferent"));
+        Assert.assertEquals(EfferentStatus.OFFLINE, simpleEfferentManager.getEfferentStatus("firstEfferent").get());
+    }
+
+    @Test
+    public void noStatusIfNoEfferent() {
+        RestEfferent efferent = Mockito.mock(RestEfferent.class);
+
+        Assert.assertFalse(simpleEfferentManager.getEfferentStatus("firstEfferent").isPresent());
     }
 
     @Test
