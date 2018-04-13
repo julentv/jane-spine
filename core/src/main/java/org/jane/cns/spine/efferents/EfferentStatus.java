@@ -1,5 +1,5 @@
 package org.jane.cns.spine.efferents;
 
 public enum EfferentStatus {
-    ACTIVE, INACTIVE, OFFLINE, FAILED
+    ACTIVE, INACTIVE, OFFLINE, FAILED, UNKNOWN
 }
