@@ -7,6 +7,8 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
 import org.jane.cns.spine.EfferentsManager;
 import org.jane.cns.spine.efferents.EfferentStatus;
+import org.jane.cns.spine.efferents.rest.RestEfferentCouldNotBeActivatedException;
+import org.jane.cns.spine.efferents.rest.RestEfferentCouldNotBeInhibitedException;
 import org.jane.cns.spine.efferents.rest.RestEfferentDescriptor;
 import org.jane.cns.spine.efferents.rest.RestEfferentFactory;
 import org.jane.cns.spine.efferents.rest.json.RestEfferentDescriptorDeserializer;
@@ -100,6 +102,42 @@ public class EfferentManagementService {
         }
     }
 
+    @GET
+    @Path("/{efferentId}/activate")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response activateEfferent(@PathParam("efferentId") String efferentId) throws JsonProcessingException {
+        try {
+            LOGGER.info("activating efferent" + efferentId);
+            efferentsManager.activateEfferent(efferentId);
+            return Response.ok().build();
+        } catch (RestEfferentCouldNotBeActivatedException ex) {
+            LOGGER.error("The efferent could not be activated", ex);
+            ServiceException serviceException = new ServiceException("The efferent " + efferentId + " could not be activated", ExceptionUtils.getStackTrace(ex));
+            return Response.serverError().entity(mapper.writeValueAsString(serviceException)).build();
+        } catch (Exception e) {
+            LOGGER.error("Error activating efferent", e);
+            return Response.serverError().build();
+        }
+    }
+
+    @GET
+    @Path("/{efferentId}/inhibit")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response inhibitEfferent(@PathParam("efferentId") String efferentId) throws JsonProcessingException {
+        try {
+            LOGGER.info("inhibiting efferent" + efferentId);
+            efferentsManager.inhibitEfferent(efferentId);
+            return Response.ok().build();
+        } catch (RestEfferentCouldNotBeInhibitedException ex) {
+            LOGGER.error("The efferent could not be inhibited", ex);
+            ServiceException serviceException = new ServiceException("The efferent " + efferentId + " could not be inhibited", ExceptionUtils.getStackTrace(ex));
+            return Response.serverError().entity(mapper.writeValueAsString(serviceException)).build();
+        } catch (Exception e) {
+            LOGGER.error("Error inhibiting efferent", e);
+            return Response.serverError().build();
+        }
+    }
+
     @DELETE
     @Path("/{efferentId}/delete")
     @Produces(MediaType.APPLICATION_JSON)
@@ -109,7 +147,7 @@ public class EfferentManagementService {
             efferentsManager.removeEfferent(efferentId);
             return Response.ok().build();
         } catch (Exception e) {
-            LOGGER.error("Error getting efferents", e);
+            LOGGER.error("Error deleting efferent", e);
             return Response.serverError().build();
         }
     }

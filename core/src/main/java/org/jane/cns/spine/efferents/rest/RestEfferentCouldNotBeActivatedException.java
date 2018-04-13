@@ -2,7 +2,7 @@ package org.jane.cns.spine.efferents.rest;
 
 import java.io.IOException;
 
-class RestEfferentCouldNotBeActivatedException extends RuntimeException {
+public class RestEfferentCouldNotBeActivatedException extends RuntimeException {
     RestEfferentCouldNotBeActivatedException(IOException e) {
         super(e);
     }
