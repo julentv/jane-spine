@@ -39,6 +39,19 @@ public class EfferentManagementService {
     }
 
     @GET
+    @Path("/status")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getEfferentsStatus() throws JsonProcessingException {
+        try {
+            LOGGER.info("getting efferents status");
+            return Response.ok(mapper.writeValueAsString(efferentsManager.getEfferentsStatus())).build();
+        } catch (Exception e) {
+            LOGGER.error("Error getting efferents", e);
+            return Response.serverError().build();
+        }
+    }
+
+    @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getEfferents() throws JsonProcessingException {

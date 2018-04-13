@@ -64,4 +64,9 @@ public class EfferentsManager {
     public void inhibitEfferent(String efferentId) {
         efferentsById.get(efferentId).inhibit();
     }
+
+    public Map<String, EfferentStatus> getEfferentsStatus() {
+        return this.efferentsById.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getEfferentStatus()));
+    }
 }

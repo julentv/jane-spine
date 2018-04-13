@@ -10,6 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import java.util.Map;
+
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -32,6 +34,19 @@ public class EfferentStatusChangingTests {
         addEfferentToManager(efferent, "firstEfferent");
 
         Assert.assertEquals(EfferentStatus.OFFLINE, simpleEfferentManager.getEfferentStatus("firstEfferent").get());
+    }
+
+    @Test
+    public void canObtainTheAllEfferentsStatus() {
+        RestEfferent efferent = Mockito.mock(RestEfferent.class);
+        addEfferentToManager(efferent, "firstEfferent");
+        addEfferentToManager(efferent, "secondEfferent");
+
+        Map<String, EfferentStatus> efferentStatusById = simpleEfferentManager.getEfferentsStatus();
+
+        Assert.assertEquals(2, efferentStatusById.size());
+        Assert.assertEquals(EfferentStatus.OFFLINE, efferentStatusById.get("firstEfferent"));
+        Assert.assertEquals(EfferentStatus.OFFLINE, efferentStatusById.get("secondEfferent"));
     }
 
     @Test
