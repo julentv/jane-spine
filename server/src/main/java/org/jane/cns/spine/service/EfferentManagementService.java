@@ -15,20 +15,28 @@ import org.jane.cns.spine.efferents.rest.json.RestEfferentDescriptorDeserializer
 import org.jane.cns.spine.efferents.rest.json.RestEfferentDescriptorSerializer;
 import org.jane.cns.spine.efferents.rest.store.FileRestEfferentStore;
 
+import javax.annotation.PostConstruct;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Optional;
 
 @Path("/jane/efferents")
-public class EfferentManagementService {
+public class EfferentManagementService extends Application {
+    @Context
+    private ServletConfig context;
+
     private static final Logger LOGGER = Logger.getLogger(EfferentManagementService.class);
-    private final EfferentsManager efferentsManager;
+    private EfferentsManager efferentsManager;
     private final ObjectMapper mapper;
 
     public EfferentManagementService() {
@@ -37,7 +45,13 @@ public class EfferentManagementService {
         module.addSerializer(RestEfferentDescriptor.class, new RestEfferentDescriptorSerializer());
         module.addDeserializer(RestEfferentDescriptor.class, new RestEfferentDescriptorDeserializer());
         mapper.registerModule(module);
-        this.efferentsManager = new EfferentsManager(new RestEfferentFactory(), new FileRestEfferentStore(mapper));
+    }
+
+    @PostConstruct
+    public void readInitParams() {
+        String storePath = context.getInitParameter("org.jane.cns.spine.store.path");
+
+        this.efferentsManager = new EfferentsManager(new RestEfferentFactory(), new FileRestEfferentStore(mapper, storePath));
     }
 
     @GET

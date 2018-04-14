@@ -15,14 +15,18 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class FileRestEfferentStore implements RestEfferentStore {
-    private static final String FILE_NAME = "store/RestEfferentDescriptors.json";
+    private static final String DEFAULT_FILE_NAME = "store/RestEfferentDescriptors.json";
 
     private final ObjectMapper mapper;
     private final Path file;
 
     public FileRestEfferentStore(ObjectMapper mapper) {
+        this(mapper, DEFAULT_FILE_NAME);
+    }
+
+    public FileRestEfferentStore(ObjectMapper mapper, String filePath) {
         this.mapper = mapper;
-        this.file = Paths.get(FILE_NAME);
+        this.file = Paths.get(filePath);
     }
 
     public Path getFile() {

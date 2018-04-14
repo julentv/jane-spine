@@ -31,6 +31,10 @@ public class EfferentManagementServiceStarter {
                 "jersey.config.server.provider.classnames",
                 EfferentManagementService.class.getCanonicalName());
 
+        jerseyServlet.setInitParameter(
+                "org.jane.cns.spine.store.path",
+                args[0]);
+
         try {
             jettyServer.start();
             jettyServer.join();
