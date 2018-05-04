@@ -17,7 +17,6 @@ import org.jane.cns.spine.efferents.rest.store.FileRestEfferentStore;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -52,6 +51,19 @@ public class EfferentManagementService extends Application {
         String storePath = context.getInitParameter("org.jane.cns.spine.store.path");
 
         this.efferentsManager = new EfferentsManager(new RestEfferentFactory(), new FileRestEfferentStore(mapper, storePath));
+    }
+
+    @GET
+    @Path("/ping")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response ping() throws JsonProcessingException {
+        try {
+            LOGGER.info("ping");
+            return Response.ok(mapper.writeValueAsBytes("pong")).build();
+        } catch (Exception e) {
+            LOGGER.error("Error getting efferents", e);
+            return Response.serverError().build();
+        }
     }
 
     @GET
